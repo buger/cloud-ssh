@@ -8,46 +8,45 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-    "sync"
+	"sync"
 )
 
 type Tag struct {
-    Name, Value string
+	Name, Value string
 }
 
 type Instances map[string][]Tag
 type CloudInstances map[string]Instances
 
-
 func getInstances(config Config) (clouds CloudInstances) {
-	clouds = make(CloudInstances)    
+	clouds = make(CloudInstances)
 
-    var wg sync.WaitGroup
-    var mux sync.RWMutex
+	var wg sync.WaitGroup
+	var mux sync.RWMutex
 
 	for name, cfg := range config {
 		for k, v := range cfg {
 			cfg["name"] = name
-            cfg["provider"] = k
+			cfg["provider"] = k
 
 			if k == "provider" {
 				switch v {
 				case "aws":
-                    wg.Add(1)                    
-                    go func(name string, cfg StrMap){
-                       mux.Lock()
-					   clouds[name] = getEC2Instances(cfg)
-                       mux.Unlock()
-                       wg.Done()
-                    }(name, cfg)
-                case "digital_ocean":
-                    wg.Add(1)
-                    go func(name string, cfg StrMap){
-                        mux.Lock()
-                        clouds[name] = getDigitalOceanInstances(cfg)
-                        mux.Unlock()
-                        wg.Done()
-                    }(name, cfg)
+					wg.Add(1)
+					go func(name string, cfg StrMap) {
+						mux.Lock()
+						clouds[name] = getEC2Instances(cfg)
+						mux.Unlock()
+						wg.Done()
+					}(name, cfg)
+				case "digital_ocean":
+					wg.Add(1)
+					go func(name string, cfg StrMap) {
+						mux.Lock()
+						clouds[name] = getDigitalOceanInstances(cfg)
+						mux.Unlock()
+						wg.Done()
+					}(name, cfg)
 				default:
 					log.Println("Unknown provider: ", v)
 				}
@@ -55,7 +54,7 @@ func getInstances(config Config) (clouds CloudInstances) {
 		}
 	}
 
-    wg.Wait()
+	wg.Wait()
 
 	return
 }
@@ -70,7 +69,7 @@ func getMatchedInstances(clouds CloudInstances, filter string) (matched []StrMap
 	for cloud, instances := range clouds {
 		for addr, tags := range instances {
 			for _, tag := range tags {
-				if rHost.MatchString(tag.Value) {
+				if rHost.MatchString(cloud + tag.Value) {
 					matched = append(matched, StrMap{
 						"cloud":     cloud,
 						"addr":      addr,
