@@ -1,4 +1,4 @@
-package provider
+package main
 
 import (
     "log"
@@ -6,7 +6,7 @@ import (
     "launchpad.net/goamz/ec2"
 )
 
-func GetEC2Instances(config map[string]string) (instances Instances) {
+func getEC2Instances(config map[string]string) (instances Instances) {
     instances = make(Instances)
 
     if _,ok := config["access_key"]; !ok {
