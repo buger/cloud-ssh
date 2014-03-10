@@ -110,24 +110,20 @@ func readConfig() (config Config) {
         }
     }
 
-    if len(content) == 0 {
-        if os.Getenv("AWS_ACCESS_KEY_ID") != "" && os.Getenv("AWS_SECRET_ACCESS_KEY") != "" {
-            config["default"] = make(StrMap)
-            config["default"]["access_key"] = os.Getenv("AWS_ACCESS_KEY_ID")
-            config["default"]["secret_key"] = os.Getenv("AWS_SECRET_ACCESS_KEY")
-            config["default"]["region"] = os.Getenv("AWS_REGION")
-            config["default"]["provider"] = "aws"
+    if os.Getenv("AWS_ACCESS_KEY_ID") != "" && os.Getenv("AWS_SECRET_ACCESS_KEY") != "" {
+        config["default"] = make(StrMap)
+        config["default"]["access_key"] = os.Getenv("AWS_ACCESS_KEY_ID")
+        config["default"]["secret_key"] = os.Getenv("AWS_SECRET_ACCESS_KEY")
+        config["default"]["region"] = os.Getenv("AWS_REGION")
+        config["default"]["provider"] = "aws"
+    }
 
-            return
+    if len(content) == 0 {
+        if len(config) == 0 {
+            fmt.Println("Can't find any configuration or ENV variables. Check http://github.com/buger/cloud-ssh for documentation.")
         }
-    }
-
-    if len(content) == 0 {
-        fmt.Println("Can't find any configuration or ENV variables. Check http://github.com/buger/cloud-ssh for documentation.")
         return 
-    }
-
-    if err := yaml.Unmarshal(content, &config); err != nil {
+    } else if err := yaml.Unmarshal(content, &config); err != nil {
         log.Fatal(err)
     }
 
