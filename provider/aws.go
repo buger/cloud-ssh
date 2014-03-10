@@ -36,9 +36,9 @@ func GetEC2Instances(config map[string]string) (instances Instances) {
             
             if inst.DNSName != "" {
                 var tags  []Tag
-                
+
                 for _, tag := range inst.Tags {
-                    tags = append(tags, Tag{"Tag", tag.Value})
+                    tags = append(tags, Tag{tag.Key, tag.Value})
                 }
 
                 for _, sg := range inst.SecurityGroups {
