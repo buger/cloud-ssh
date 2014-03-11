@@ -3,7 +3,11 @@ cloud-ssh
 
 Wrapper for ssh which enchance work with cloud providers.
 
-In times of digital clouds, servers come and go, and you barely remember its names and addresses. This tiny tool provide fuzzy search (yeah like SublimeText) for your instances list, based on tags, security groups and names. Here is few examples:
+In times of digital clouds, servers come and go, and you barely remember its names and addresses. This tiny tool provide fuzzy search (yeah like SublimeText) for your instances list, based on tags, security groups and names. 
+
+Check releases for latest version: https://github.com/buger/cloud-ssh/releases
+
+Here is few examples:
 
 ```
 sh-3.2$ # Lets say i want connect to server called stage-matching
