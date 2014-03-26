@@ -38,7 +38,7 @@ Nice, right? More over, cloud-ssh can act as full ssh replacement, since it just
 
 ## Configuration 
 
-By default it checks your environment for AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables. If you want advanced configuration you can create `cloud-ssh.yml` in one of this directories: ./ (current), ~/.ssh/, /etc/
+By default it checks your environment for AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables. If you want advanced configuration you can create `cloud-ssh.yaml` in one of this directories: ./ (current), ~/.ssh/, /etc/
 
 Note that you can define multiple clouds, per provider, if you have multi-datacenter setup or just different clients. Cloud name will be included into search term, so you can filter by it too!
 
