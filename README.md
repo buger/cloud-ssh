@@ -51,6 +51,7 @@ gran_ec2: # cloud name, used when searching
     region: us-east-1
     access_key: AAAAAAAAAAAAAAAAA
     secret_key: BBBBBBBBBBBBBBBBBBBBBBBBB
+    default_user: ubuntu
 gran_digital:
     provider: digital_ocean
     client_id: 111111111111111111
