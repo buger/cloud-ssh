@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sort"
 )
 
 type Tag struct {
@@ -56,6 +57,11 @@ func getInstances(config Config) (clouds CloudInstances) {
 	return
 }
 
+type SortByTagValue []StrMap
+func (a SortByTagValue) Len() int           { return len(a) }
+func (a SortByTagValue) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a SortByTagValue) Less(i, j int) bool { return a[i]["tag_value"] < a[j]["tag_value"]}
+
 func getMatchedInstances(clouds CloudInstances, filter string) (matched []StrMap) {
 	// Fuzzy matching, like SublimeText
 	filter = strings.Join(strings.Split(filter, ""), ".*?")
@@ -78,8 +84,10 @@ func getMatchedInstances(clouds CloudInstances, filter string) (matched []StrMap
 			}
 		}
 	}
+	
+	sort.Sort(SortByTagValue(matched))
 
-	return
+	return 
 }
 
 func formatMatchedInstance(inst StrMap) string {
