@@ -26,8 +26,6 @@ func getInstances(config Config) (clouds CloudInstances) {
 
 	for name, cfg := range config {
 		for k, v := range cfg {
-			cfg["name"] = name
-			cfg["provider"] = k
 
 			if k == "provider" {
 				switch v {
