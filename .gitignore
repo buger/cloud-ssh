@@ -2,3 +2,5 @@
 cloud-ssh.yaml
 
 Dockerfile
+
+*.gz
