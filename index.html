@@ -8,19 +8,18 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
-    <title>Cloud-ssh by buger</title>
+    <title>Cloud enhanced SSH replacement with host auto-completion</title>
   </head>
 
   <body>
 
     <header>
       <div class="container">
-        <h1>Cloud-ssh</h1>
-        <h2>Wrapper for ssh which enchance work with cloud providers</h2>
+        <h1>cloud-ssh</h1>
+        <h2>Cloud enhanced SSH replacement with host auto-completion</h2>
 
         <section id="downloads">
-          <a href="https://github.com/buger/cloud-ssh/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/buger/cloud-ssh/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/buger/cloud-ssh/releases" class="btn">Download latest release</a>
           <a href="https://github.com/buger/cloud-ssh" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
         </section>
       </div>
@@ -31,11 +30,7 @@
         <h1>
 <a name="cloud-ssh" class="anchor" href="#cloud-ssh"><span class="octicon octicon-link"></span></a>cloud-ssh</h1>
 
-<p>Wrapper for ssh which enchance work with cloud providers.</p>
-
-<p>In times of digital clouds, servers come and go, and you barely remember its names and addresses. This tiny tool provide fuzzy search (yeah like SublimeText) for your instances list, based on tags, security groups and names. </p>
-
-<p>Check releases for latest version: <a href="https://github.com/buger/cloud-ssh/releases">https://github.com/buger/cloud-ssh/releases</a></p>
+<p>In times of digital clouds, servers come and go, and you barely remember its names and addresses. This tiny tool provide fuzzy autocompletion for your instances addresses based on tags, security groups and names. </p>
 
 <script type="text/javascript" src="https://asciinema.org/a/11395.js" id="asciicast-11395" async data-speed="4" data-autoplay="true"></script>
 
@@ -45,7 +40,7 @@
 sh-3.2$ ./cloud-ssh leon@stama
 Found config: /Users/buger/.ssh/cloud-ssh.yaml
 Found clound instance:
-Cloud: granify_ec2      Matched by: aws:autoscaling:groupName=stage-matching    Addr: ec2-50-200-40-200.compute-1.amazonaws.com
+Cloud: granify_ec2      Matched by: aws:autoscaling:groupName=stage-matching    Addr: ec2-00-000-00-000.compute-1.amazonaws.com
 
 Welcome to Ubuntu 12.04 LTS (GNU/Linux 3.2.0-25-virtual x86_64)
 </code></pre>
@@ -56,11 +51,11 @@ Welcome to Ubuntu 12.04 LTS (GNU/Linux 3.2.0-25-virtual x86_64)
 sh-3.2$ ./cloud-ssh ubuntu@couch
 Found config: /Users/buger/.ssh/cloud-ssh.yaml
 Found multiple instances:
-1)  Cloud: granify_ec2  Matched by: Name=couchbase-02   Addr: ec2-50-200-40-201.compute-1.amazonaws.com
-2)  Cloud: granify_ec2  Matched by: Name=couchbase-03   Addr: ec2-50-200-40-202.compute-1.amazonaws.com
-3)  Cloud: granify_ec2  Matched by: Name=couchbase-04   Addr: ec2-50-200-40-203.compute-1.amazonaws.com
-4)  Cloud: granify_ec2  Matched by: Name=couchbase-01   Addr: ec2-50-200-40-204.compute-1.amazonaws.com
-5)  Cloud: granify_ec2  Matched by: Name=couchbase-05   Addr: ec2-50-200-40-205.compute-1.amazonaws.com
+1)  Cloud: granify_ec2  Matched by: Name=couchbase-02   Addr: ec2-50-000-00-201.compute-1.amazonaws.com
+2)  Cloud: granify_ec2  Matched by: Name=couchbase-03   Addr: ec2-50-000-00-202.compute-1.amazonaws.com
+3)  Cloud: granify_ec2  Matched by: Name=couchbase-04   Addr: ec2-50-000-00-203.compute-1.amazonaws.com
+4)  Cloud: granify_ec2  Matched by: Name=couchbase-01   Addr: ec2-50-000-00-204.compute-1.amazonaws.com
+5)  Cloud: granify_ec2  Matched by: Name=couchbase-05   Addr: ec2-50-000-00-205.compute-1.amazonaws.com
 Choose instance: 1
 Welcome to Ubuntu 12.04.4 LTS (GNU/Linux 3.2.0-58-virtual x86_64)
 </code></pre>
@@ -70,11 +65,11 @@ Welcome to Ubuntu 12.04.4 LTS (GNU/Linux 3.2.0-58-virtual x86_64)
 <h2>
 <a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
 
-<p>By default it checks your environment for AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables. If you want advanced configuration you can create <code>cloud-ssh.yaml</code> in one of this directories: ./ (current), ~/.ssh/, /etc/</p>
+<p>You should provide configuration file to make it work: <code>cloud-ssh.yaml</code> in one of this directories: ./ (current), ~/.ssh/ or /etc/</p>
 
 <p>Note that you can define multiple clouds, per provider, if you have multi-datacenter setup or just different clients. Cloud name will be included into search term, so you can filter by it too!</p>
 
-<p>Right now only 2 data cloud providers supported: Amazon EC2 and DigitalOcean. </p>
+<p>Right now only 2 data cloud providers supported: Amazon EC2 and DigitalOcean. More coming (pull requests welcome). </p>
 
 <p>Example configuration:</p>
 
@@ -83,7 +78,7 @@ Welcome to Ubuntu 12.04.4 LTS (GNU/Linux 3.2.0-58-virtual x86_64)
     region: us-east-1
     access_key: AAAAAAAAAAAAAAAAA
     secret_key: BBBBBBBBBBBBBBBBBBBBBBBBB
-    default_user: ubuntu
+    default_user: leon
 gran_digital:
     provider: digital_ocean
     client_id: 111111111111111111
