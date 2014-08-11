@@ -66,6 +66,11 @@ gran_digital:
     api_key: 22222222222222222
 ```
 
+## Faq
+
+### Can it be drop-in replacement for SSH?
+Totally yes! Actually it just SSH wrapper, so all SSH command options will work as before.
+
 
 ## Contributing
 
