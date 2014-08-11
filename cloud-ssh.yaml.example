@@ -1,0 +1,12 @@
+# cloud-ssh support multiple clouds at once
+#
+# gran_ec2:
+#    provider: aws
+#    region: us-east-1
+#    access_key: <hidden>
+#    secret_key: <hidden>
+#    default_user: leon # you can specify default user for every cloud
+# gran_digital:
+#    provider: digital_ocean
+#    client_id: <hidden>
+#    api_key: <hidden>
