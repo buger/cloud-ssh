@@ -5,9 +5,17 @@ Cloud enhanced SSH replacement with host auto-completion.
 
 In times of digital clouds, servers come and go, and you barely remember its names and addresses. This tiny tool provide fuzzy search (yeah like SublimeText) for your instances list, based on tags, security groups and names. 
 
-Check releases for latest version: https://github.com/buger/cloud-ssh/releases
+Official site: http://leonsbox.com/cloud-ssh/
 
-Here is few examples:
+## Installation
+Automatic installation. Just run following code in your terminal
+
+  bash <(curl -# http://leonsbox.com/cloud-ssh/install.sh)
+
+Manual installation:
+Download and unpack latest release: http://github.com/buger/cloud-ssh/releases
+
+## Examples
 
 ```
 sh-3.2$ # Lets say i want connect to server called stage-matching
