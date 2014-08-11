@@ -1,7 +1,7 @@
 cloud-ssh
 =========
 
-Cloud enhanced SSH replacement with host auto-completion.
+Cloud enhanced SSH client replacement with host auto-completion.
 
 In times of digital clouds, servers come and go, and you barely remember its names and addresses. This tiny tool provide fuzzy search (yeah like SublimeText) for your instances list, based on tags, security groups and names. 
 
