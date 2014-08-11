@@ -28,37 +28,76 @@
 
     <div class="container">
       <section id="main_content">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <h1>
+<a name="cloud-ssh" class="anchor" href="#cloud-ssh"><span class="octicon octicon-link"></span></a>cloud-ssh</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>Wrapper for ssh which enchance work with cloud providers.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p>In times of digital clouds, servers come and go, and you barely remember its names and addresses. This tiny tool provide fuzzy search (yeah like SublimeText) for your instances list, based on tags, security groups and names. </p>
+
+<p>Check releases for latest version: <a href="https://github.com/buger/cloud-ssh/releases">https://github.com/buger/cloud-ssh/releases</a></p>
+
+<p>Here is few examples:</p>
+
+<pre><code>sh-3.2$ # Lets say i want connect to server called stage-matching
+sh-3.2$ ./cloud-ssh leon@stama
+Found config: /Users/buger/.ssh/cloud-ssh.yaml
+Found clound instance:
+Cloud: granify_ec2      Matched by: aws:autoscaling:groupName=stage-matching    Addr: ec2-50-200-40-200.compute-1.amazonaws.com
+
+Welcome to Ubuntu 12.04 LTS (GNU/Linux 3.2.0-25-virtual x86_64)
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>If there are more then 1 server matching your query, it will ask you to choose one:</p>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<pre><code>sh-3.2$ # I want to check one of my CouchBase servers
+sh-3.2$ ./cloud-ssh ubuntu@couch
+Found config: /Users/buger/.ssh/cloud-ssh.yaml
+Found multiple instances:
+1)  Cloud: granify_ec2  Matched by: Name=couchbase-02   Addr: ec2-50-200-40-201.compute-1.amazonaws.com
+2)  Cloud: granify_ec2  Matched by: Name=couchbase-03   Addr: ec2-50-200-40-202.compute-1.amazonaws.com
+3)  Cloud: granify_ec2  Matched by: Name=couchbase-04   Addr: ec2-50-200-40-203.compute-1.amazonaws.com
+4)  Cloud: granify_ec2  Matched by: Name=couchbase-01   Addr: ec2-50-200-40-204.compute-1.amazonaws.com
+5)  Cloud: granify_ec2  Matched by: Name=couchbase-05   Addr: ec2-50-200-40-205.compute-1.amazonaws.com
+Choose instance: 1
+Welcome to Ubuntu 12.04.4 LTS (GNU/Linux 3.2.0-58-virtual x86_64)
+</code></pre>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>Nice, right? More over, cloud-ssh can act as full ssh replacement, since it just forward all calls to ssh command. </p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<h2>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>By default it checks your environment for AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables. If you want advanced configuration you can create <code>cloud-ssh.yaml</code> in one of this directories: ./ (current), ~/.ssh/, /etc/</p>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<p>Note that you can define multiple clouds, per provider, if you have multi-datacenter setup or just different clients. Cloud name will be included into search term, so you can filter by it too!</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>Right now only 2 data cloud providers supported: Amazon EC2 and DigitalOcean. </p>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>Example configuration:</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<pre><code>gran_ec2: # cloud name, used when searching
+    provider: aws 
+    region: us-east-1
+    access_key: AAAAAAAAAAAAAAAAA
+    secret_key: BBBBBBBBBBBBBBBBBBBBBBBBB
+    default_user: ubuntu
+gran_digital:
+    provider: digital_ocean
+    client_id: 111111111111111111
+    api_key: 22222222222222222
+</code></pre>
+
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (git checkout -b my-new-feature)</li>
+<li>Commit your changes (git commit -am 'Added some feature')</li>
+<li>Push to the branch (git push origin my-new-feature)</li>
+<li>Create new Pull Request</li>
+</ol>
       </section>
     </div>
 
