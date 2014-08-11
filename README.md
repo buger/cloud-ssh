@@ -13,8 +13,7 @@ Automatic installation. Just run following code in your terminal
   bash <(curl -# http://leonsbox.com/cloud-ssh/install.sh)
 ```
 
-Manual installation:
-Download and unpack latest release: http://github.com/buger/cloud-ssh/releases
+Manual installation - download and unpack latest release: http://github.com/buger/cloud-ssh/releases
 
 ## Examples
 
