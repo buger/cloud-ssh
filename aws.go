@@ -21,7 +21,7 @@ func getEC2Instances(config map[string]string) (instances Instances) {
 		config["region"] = "us-east-1"
 	}
 
-	auth := aws.Auth{config["access_key"], config["secret_key"]}
+	auth := aws.Auth{AccessKey: config["access_key"], SecretKey: config["secret_key"]}
 
 	e := ec2.New(auth, aws.Regions[config["region"]])
 	resp, err := e.Instances(nil, nil)
