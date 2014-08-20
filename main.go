@@ -6,10 +6,10 @@ import (
 	"os"
 	"os/exec"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"sync"
-	"sort"
 )
 
 type Tag struct {
@@ -58,9 +58,10 @@ func getInstances(config Config) (clouds CloudInstances) {
 }
 
 type SortByTagValue []StrMap
+
 func (a SortByTagValue) Len() int           { return len(a) }
 func (a SortByTagValue) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a SortByTagValue) Less(i, j int) bool { return a[i]["tag_value"] < a[j]["tag_value"]}
+func (a SortByTagValue) Less(i, j int) bool { return a[i]["tag_value"] < a[j]["tag_value"] }
 
 func getMatchedInstances(clouds CloudInstances, filter string) (matched []StrMap) {
 	// Fuzzy matching, like SublimeText
@@ -74,7 +75,7 @@ func getMatchedInstances(clouds CloudInstances, filter string) (matched []StrMap
 				if rHost.MatchString(cloud + tag.Value) {
 					matched = append(matched, StrMap{
 						"cloud":     cloud,
-						"addr":      addr,						
+						"addr":      addr,
 						"tag_name":  tag.Name,
 						"tag_value": tag.Value,
 					})
@@ -84,10 +85,10 @@ func getMatchedInstances(clouds CloudInstances, filter string) (matched []StrMap
 			}
 		}
 	}
-	
+
 	sort.Sort(SortByTagValue(matched))
 
-	return 
+	return
 }
 
 func formatMatchedInstance(inst StrMap) string {
@@ -104,7 +105,7 @@ func main() {
 
 	match := getMatchedInstances(instances, hostname)
 
-	var matched_instance map[string]string	
+	var matched_instance map[string]string
 
 	if len(match) == 0 {
 		fmt.Println("Can't find cloud instance, trying to connect anyway")
@@ -137,7 +138,7 @@ func main() {
 		fmt.Println("Connecting to instance:")
 		fmt.Println(formatMatchedInstance(matched_instance))
 	}
-	
+
 	if len(args) == 0 {
 		args = append(args, joinHostname(user, hostname))
 	} else {
