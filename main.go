@@ -92,8 +92,13 @@ func getMatchedInstances(clouds CloudInstances, filter string) (matched []StrMap
 	return
 }
 
-func formatMatchedInstance(inst StrMap) string {
-	return "Name: " + inst["instance_name"] + "\tMatched by: " + inst["tag_name"] + "=" + inst["tag_value"] + "\tAddr: " + inst["addr"]
+func formatMatchedInstance(inst StrMap, output string) string {
+	c := strings.Fields(output)
+	s := make([]string, len(c))
+	for i := 0; i < len(c); i++ {
+		s[i] = strings.Title(c[i]) + ": " + inst[c[i]]
+	}
+	return strings.Join(s, "\t")
 }
 
 func getInstanceName(tags []Tag) string {
@@ -121,7 +126,7 @@ func main() {
 		matched_instance = match[0]
 	} else {
 		for i, host := range match {
-			fmt.Println(strconv.Itoa(i+1)+") ", formatMatchedInstance(host))
+			fmt.Println(strconv.Itoa(i+1)+") ", formatMatchedInstance(host, config[host["cloud"]]["output_format"]))
 		}
 		fmt.Print("Choose instance: ")
 
@@ -144,7 +149,7 @@ func main() {
 		}
 
 		fmt.Println("Connecting to instance:")
-		fmt.Println(formatMatchedInstance(matched_instance))
+		fmt.Println(formatMatchedInstance(matched_instance, config[matched_instance["cloud"]]["output_format"]))
 	}
 
 	if len(args) == 0 {
