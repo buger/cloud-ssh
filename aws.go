@@ -34,7 +34,7 @@ func getEC2Instances(config map[string]string) (instances Instances) {
 	for _, res := range resp.Reservations {
 		for _, inst := range res.Instances {
 
-			if inst.DNSName != "" {
+			if inst.PrivateIPAddress != "" {
 				var tags []Tag
 
 				for _, tag := range inst.Tags {
@@ -45,7 +45,7 @@ func getEC2Instances(config map[string]string) (instances Instances) {
 					tags = append(tags, Tag{"Security group", sg.Name})
 				}
 
-				instances[inst.DNSName] = tags
+				instances[inst.PrivateIPAddress] = tags
 			}
 		}
 	}
