@@ -93,12 +93,20 @@ func getMatchedInstances(clouds CloudInstances, filter string) (matched []StrMap
 }
 
 func formatMatchedInstance(inst StrMap, output string) string {
-	c := strings.Fields(output)
-	s := make([]string, len(c))
-	for i := 0; i < len(c); i++ {
-		s[i] = strings.Title(c[i]) + ": " + inst[c[i]]
+	c := strings.SplitAfter(output, "{")
+	for i := 1; i < len(c); i++ {
+		s := strings.SplitN(c[i], "}", 2)
+		c[i] = getStringValue(inst, s[0])
+		output = strings.Replace(output, "{" + s[0] + "}", c[i], -1)
 	}
-	return strings.Join(s, "\t")
+	return output
+}
+
+func getStringValue(inst StrMap, s string) string{
+	if len(inst[s]) > 0 {
+		return inst[s]
+	}
+	return "{" + s + "}"
 }
 
 func getInstanceName(tags []Tag) string {
