@@ -78,6 +78,7 @@ func getMatchedInstances(clouds CloudInstances, filter string) (matched []StrMap
 						"addr":      addr,
 						"tag_name":  tag.Name,
 						"tag_value": tag.Value,
+						"instance_name": getInstanceName(tags),
 					})
 
 					break
@@ -92,7 +93,14 @@ func getMatchedInstances(clouds CloudInstances, filter string) (matched []StrMap
 }
 
 func formatMatchedInstance(inst StrMap) string {
-	return "Cloud: " + inst["cloud"] + "\tMatched by: " + inst["tag_name"] + "=" + inst["tag_value"] + "\tAddr: " + inst["addr"]
+	return "Name: " + inst["instance_name"] + "\tMatched by: " + inst["tag_name"] + "=" + inst["tag_value"] + "\tAddr: " + inst["addr"]
+}
+
+func getInstanceName(tags []Tag) string {
+	for _, tag := range tags {
+		if tag.Name == "Name" { return tag.Value }
+	}
+	return "" 
 }
 
 func main() {
