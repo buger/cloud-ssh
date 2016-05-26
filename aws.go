@@ -1,8 +1,8 @@
 package main
 
 import (
-	"launchpad.net/goamz/aws"
-	"launchpad.net/goamz/ec2"
+	"gopkg.in/amz.v2/aws"
+	"gopkg.in/amz.v2/ec2"
 	"log"
 )
 
