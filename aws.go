@@ -21,6 +21,10 @@ func getEC2Instances(config map[string]string) (instances Instances) {
 		config["region"] = "us-east-1"
 	}
 
+	if _, ok := config["output_format"]; !ok {
+		config["output_format"] = "Cloud: {cloud} \tMatched by: {tag_name} = {tag_value} \tAddr: {addr}"
+	}
+
 	auth := aws.Auth{AccessKey: config["access_key"], SecretKey: config["secret_key"]}
 
 	e := ec2.New(auth, aws.Regions[config["region"]])
@@ -44,8 +48,16 @@ func getEC2Instances(config map[string]string) (instances Instances) {
 				for _, sg := range inst.SecurityGroups {
 					tags = append(tags, Tag{"Security group", sg.Name})
 				}
-
-				instances[inst.DNSName] = tags
+				ci := config["connection_interface"]
+				if ci == "private_ip" {
+					instances[inst.PrivateIPAddress] = tags
+				} else if ci == "public_ip" {
+					instances[inst.IPAddress] = tags
+				} else if ci == "private_dns" {
+					instances[inst.PrivateDNSName] = tags
+				} else {
+					instances[inst.DNSName] = tags
+				}
 			}
 		}
 	}

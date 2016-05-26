@@ -78,6 +78,7 @@ func getMatchedInstances(clouds CloudInstances, filter string) (matched []StrMap
 						"addr":      addr,
 						"tag_name":  tag.Name,
 						"tag_value": tag.Value,
+						"instance_name": getInstanceName(tags),
 					})
 
 					break
@@ -91,8 +92,28 @@ func getMatchedInstances(clouds CloudInstances, filter string) (matched []StrMap
 	return
 }
 
-func formatMatchedInstance(inst StrMap) string {
-	return "Cloud: " + inst["cloud"] + "\tMatched by: " + inst["tag_name"] + "=" + inst["tag_value"] + "\tAddr: " + inst["addr"]
+func formatMatchedInstance(inst StrMap, output string) string {
+	c := strings.SplitAfter(output, "{")
+	for i := 1; i < len(c); i++ {
+		s := strings.SplitN(c[i], "}", 2)
+		c[i] = getStringValue(inst, s[0])
+		output = strings.Replace(output, "{" + s[0] + "}", c[i], -1)
+	}
+	return output
+}
+
+func getStringValue(inst StrMap, s string) string{
+	if len(inst[s]) > 0 {
+		return inst[s]
+	}
+	return "{" + s + "}"
+}
+
+func getInstanceName(tags []Tag) string {
+	for _, tag := range tags {
+		if tag.Name == "Name" { return tag.Value }
+	}
+	return "" 
 }
 
 func main() {
@@ -113,7 +134,7 @@ func main() {
 		matched_instance = match[0]
 	} else {
 		for i, host := range match {
-			fmt.Println(strconv.Itoa(i+1)+") ", formatMatchedInstance(host))
+			fmt.Println(strconv.Itoa(i+1)+") ", formatMatchedInstance(host, config[host["cloud"]]["output_format"]))
 		}
 		fmt.Print("Choose instance: ")
 
@@ -136,7 +157,7 @@ func main() {
 		}
 
 		fmt.Println("Connecting to instance:")
-		fmt.Println(formatMatchedInstance(matched_instance))
+		fmt.Println(formatMatchedInstance(matched_instance, config[matched_instance["cloud"]]["output_format"]))
 	}
 
 	if len(args) == 0 {
