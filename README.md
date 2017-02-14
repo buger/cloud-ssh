@@ -5,7 +5,7 @@ Cloud enhanced SSH client replacement with host auto-completion.
 
 In times of digital clouds, servers come and go, and you barely remember its names and addresses. This tiny tool provide fuzzy search (yeah like SublimeText) for your instances list, based on tags, security groups and names. 
 
-Official site: http://leonsbox.com/cloud-ssh/
+Official site: http://buger.github.com/cloud-ssh/
 
 ## Installation
 Automatic installation. Just run following code in your terminal
