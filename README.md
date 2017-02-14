@@ -5,12 +5,12 @@ Cloud enhanced SSH client replacement with host auto-completion.
 
 In times of digital clouds, servers come and go, and you barely remember its names and addresses. This tiny tool provide fuzzy search (yeah like SublimeText) for your instances list, based on tags, security groups and names. 
 
-Official site: https://buger.github.com/cloud-ssh/
+Official site: https://buger.github.io/cloud-ssh/
 
 ## Installation
 Automatic installation. Just run following code in your terminal
 ```
-  bash <(curl -# https://buger.github.com/cloud-ssh/install.sh)
+  bash <(curl -# https://buger.github.io/cloud-ssh/install.sh)
 ```
 
 Manual installation - download and unpack latest release: http://github.com/buger/cloud-ssh/releases
