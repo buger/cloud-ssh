@@ -10,7 +10,7 @@ Official site: http://leonsbox.com/cloud-ssh/
 ## Installation
 Automatic installation. Just run following code in your terminal
 ```
-  bash <(curl -# http://leonsbox.com/cloud-ssh/install.sh)
+  bash <(curl -# http://buger.github.com/cloud-ssh/install.sh)
 ```
 
 Manual installation - download and unpack latest release: http://github.com/buger/cloud-ssh/releases
